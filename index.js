@@ -35,7 +35,7 @@ app.get('/api/test', async (req, res) => {
 });
 
 // Create table endpoint
-app.post('/api/create-table', async (req, res) => {
+app.get('/api/create-table', async (req, res) => {
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS seating (
       id SERIAL PRIMARY KEY,
@@ -95,4 +95,5 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
