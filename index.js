@@ -17,7 +17,7 @@ const pool = new Pool({
 (async () => {
   try {
     const res = await pool.query('SELECT NOW()');
-    console.log('Connected to Supabase! Time:', res.rows[0].now);
+    console.log('Connected to database! Time:', res.rows[0].now);
   } catch (err) {
     console.error('DB Connection failed:', err);
   }
@@ -43,7 +43,7 @@ app.get('/api/people', async (req, res) => {
     const result = await pool.query(`
       SELECT *
       FROM seating
-    `, [`%${name}%`]);
+    `);
     res.json(result.rows);
   } catch (err) {
     console.error('Database select query failed:', err);
@@ -73,4 +73,5 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
 
