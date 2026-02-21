@@ -41,7 +41,7 @@ app.get('/api/people', async (req, res) => {
 
   try {
     const result = await pool.query(`
-      SELECT seating."firstName", seating."lastName", seating."tableNumber"
+      SELECT *
       FROM seating
       WHERE seating."firstName" ILIKE $1 OR seating."lastName" ILIKE $1
       ORDER BY seating."lastName" ASC
@@ -73,4 +73,5 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
