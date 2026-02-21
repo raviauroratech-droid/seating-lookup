@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Seating Lookup</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Seating Lookup Application</h1>
-    <div id="seating-area"></div>
+    <div class="container">
+        <!-- Landing page picture and caption -->
+        <div class="landing">
+            <!-- Make sure to replace 'YOUR_IMAGE_URL' with the actual URL of your image -->
+            <img id="landing-image" src="https://www.theknot.com/tk-media/images/495995ec-7459-410d-a1e7-98a2bea3919d~rt_auto-cr_27.0.837.1080-rs_2880.h?quality=75" alt="Seating Lookup" />
+            <p id="caption">Please enter a partial name to find out the table or table number to see who is seated.</p>
+        </div>
+
+        <!-- Search Mode Toggle -->
+        <div class="search-mode">
+            <button id="search-by-name" class="active">Search by Name</button>
+            <button id="search-by-table">Search by Table</button>
+        </div>
+
+        <!-- Search by Name (input field) -->
+        <div id="name-search" class="search-section">
+            <input type="text" id="name-input" placeholder="Enter name..." />
+            <button id="name-search-btn">Search</button>
+        </div>
+
+        <!-- Search by Table (input field) -->
+        <div id="table-search" class="search-section hidden">
+            <input type="number" id="table-input" placeholder="Enter table number..." />
+            <button id="table-search-btn">Search</button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden">
+            <img src="loading-spinner.gif" alt="Loading..." />
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="results hidden">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Table Number</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
