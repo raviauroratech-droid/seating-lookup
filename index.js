@@ -41,10 +41,10 @@ app.get('/api/people', async (req, res) => {
 
   try {
     const result = await pool.query(`
-      SELECT firstName, lastName, tablenumber
+      SELECT firstname, lastname, tablenumber
       FROM seating
       WHERE firstname ILIKE $1 OR lastname ILIKE $1
-      ORDER BY lastame ASC
+      ORDER BY lastname ASC
     `, [`%${name}%`]);
     res.json(result.rows);
   } catch (err) {
@@ -60,10 +60,10 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 
   try {
     const result = await pool.query(`
-      SELECT "firstName", "lastName"
+      SELECT "firstname", "lastname"
       FROM seating
-      WHERE "tableNumber" = $1
-      ORDER BY "lastName" ASC
+      WHERE "tablenumber" = $1
+      ORDER BY "lastname" ASC
     `, [tableNumber]);
     res.json(result.rows);
   } catch (err) {
