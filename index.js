@@ -4,7 +4,6 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -15,9 +14,24 @@ const pool = new Pool({
 });
 
 // Test DB connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) console.error('DB Connection failed:', err);
-  else console.log('Connected to Supabase! Time:', res.rows[0]);
+(async () => {
+  try {
+    const res = await pool.query('SELECT NOW()');
+    console.log('Connected to Supabase! Time:', res.rows[0].now);
+  } catch (err) {
+    console.error('DB Connection failed:', err);
+  }
+})();
+
+// Test route
+app.get('/api/test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ now: result.rows[0].now });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database connection failed' });
+  }
 });
 
 // Search by Name
@@ -26,35 +40,34 @@ app.get('/api/people', async (req, res) => {
   if (!name) return res.status(400).json({ error: 'Missing name query parameter' });
 
   try {
-    const query = `
-      SELECT seating."firstName", seating."lastName", seating."tableNumber"
+    const result = await pool.query(`
+      SELECT "firstName", "lastName", "tableNumber"
       FROM seating
-      WHERE seating."firstName" ILIKE $1 OR seating."lastName" ILIKE $1
-      ORDER BY seating."lastName" ASC
-    `;
-    const result = await pool.query(query, [`%${name}%`]);
+      WHERE "firstName" ILIKE $1 OR "lastName" ILIKE $1
+      ORDER BY "lastName" ASC
+    `, [`%${name}%`]);
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error('Database query failed:', err);
     res.status(500).json({ error: 'Database query failed' });
   }
 });
 
 // Search by Table
 app.get('/api/table/:tableNumber', async (req, res) => {
-  const tableNumber = req.params.tableNumber;
+  const tableNumber = parseInt(req.params.tableNumber, 10);
+  if (isNaN(tableNumber)) return res.status(400).json({ error: 'Invalid table number' });
 
   try {
-    const query = `
-      SELECT seating."firstName", seating."lastName"
+    const result = await pool.query(`
+      SELECT "firstName", "lastName"
       FROM seating
-      WHERE seating."tableNumber" = $1
-      ORDER BY seating."lastName" ASC
-    `;
-    const result = await pool.query(query, [tableNumber]);
+      WHERE "tableNumber" = $1
+      ORDER BY "lastName" ASC
+    `, [tableNumber]);
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error('Database query failed:', err);
     res.status(500).json({ error: 'Database query failed' });
   }
 });
