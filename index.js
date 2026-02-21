@@ -33,6 +33,7 @@ app.get('/api/test', async (req, res) => {
     res.status(500).json({ error: 'Database connection failed' });
   }
 });
+
 // Create table endpoint
 app.post('/api/create-table', async (req, res) => {
   const createTableQuery = `
@@ -62,10 +63,10 @@ app.get('/api/people', async (req, res) => {
 
   try {
     const result = await pool.query(`
-      SELECT firstname, lastname, tablenumber
+      SELECT "firstname", "lastname", "tablenumber"
       FROM seating
-      WHERE firstname ILIKE $1 OR lastname ILIKE $1
-      ORDER BY lastname ASC
+      WHERE "firstname" ILIKE $1 OR "lastname" ILIKE $1
+      ORDER BY "lastname" ASC
     `, [`%${name}%`]);
     res.json(result.rows);
   } catch (err) {
@@ -94,5 +95,4 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-
 app.listen(port, () => console.log(`Server running on port ${port}`));
