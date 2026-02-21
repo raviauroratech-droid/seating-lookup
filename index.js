@@ -59,7 +59,7 @@ app.get('/api/create-table', async (req, res) => {
 // Insert Data endpoint
 app.get('/api/insert-data', async (req, res) => {
   const insertQuery = `
-    INSERT INTO seating ("firstName", "lastName", "tableNumber")
+    INSERT INTO seating ("firstname", "lastname", "tablenumber")
     VALUES 
     ('Alice', 'Smith', 1),
     ('Bob', 'Johnson', 2),
@@ -118,4 +118,5 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
 
