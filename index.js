@@ -60,4 +60,4 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));typoe
+app.listen(port, () => console.log(`Server running on port ${port}`));
