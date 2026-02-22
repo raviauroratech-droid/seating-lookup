@@ -70,23 +70,7 @@ app.get('/api/insert-data', async (req, res) => {
       ('Kristina','Collins',4),
       ('Glenn','Conrad',4),
       ('Sam','Cronin',4),
-      ('Anna','Curtis',4),
-      ('Manikandan','Dhanuskodi',5),
-      ('Ravi','Dinakaran',5),
-      ('Kripa','Dinesh',5),
-      ('Murugesan','Diraviam',5),
-      ('Alex','Dobner',5),
-      ('Ravi','Dudhalur',5),
-      ('Emily','Frank',5),
-      ('Yochana','Gavva',5),
-      ('Shobha','Giridhar',6),
-      ('Torianne','Greene',6),
-      ('Stephen','Greene',6),
-      ('Marie's','Guest',6),
-      ('Krishna','Gurusamy',6),
-      ('Donald','Halpern',6),
-      ('Fareedah','Haroun',6),
-      ('Ashwini','Hassija',6)
+      ('Anna','Curtis',4)
       ON CONFLICT DO NOTHING;
   `;
 
