@@ -58,7 +58,7 @@ app.get('/api/create-table', async (req, res) => {
 });
 
 // Insert Data endpoint (now in insertData.js)
-Insert Data endpoint
+//Insert Data endpoint
 app.get('/api/insert-data', async (req, res) => {
   const insertQuery = `
     INSERT INTO seating ("firstName", "lastName", "tableNumber")
