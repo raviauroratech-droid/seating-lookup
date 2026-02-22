@@ -66,7 +66,7 @@ app.get('/api/insert-data', async (req, res) => {
 ('Shobha','Giridhar',6),
 ('Torianne','Greene',6),
 ('Stephen','Greene',6),
-('Marie's','Guest',6),
+('Maries','Guest',6),
 ('Krishna','Gurusamy',6),
 ('Donald','Halpern',6),
 ('Fareedah','Haroun',6),
