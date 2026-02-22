@@ -5,25 +5,27 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
+    box-sizing: border-box;
 }
 
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
 }
 
+/* Heading Style */
 h1 {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     margin-top: 20px;
 }
 
 /* Landing Page Image */
 img {
     width: 100%;
-    max-width: 400px; /* Resize the image */
+    max-width: 300px; /* Make the image smaller */
     height: auto;
     display: block;
     margin: 0 auto;
@@ -41,19 +43,19 @@ img {
 /* Search Section */
 .search-section {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; 
+    align-items: center;
     margin-top: 20px;
+    gap: 15px;
     flex-wrap: wrap;
-    gap: 20px;
 }
 
 .search-section input {
-    width: 250px;
-    padding: 12px;
-    font-size: 1.1rem;
+    width: 45%;
+    padding: 10px;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-right: 10px;
     transition: border-color 0.3s ease;
 }
 
@@ -64,8 +66,8 @@ img {
 
 /* Elegant Button Styles */
 .search-section button {
-    padding: 12px 30px;
-    font-size: 1.1rem;
+    padding: 10px 20px;
+    font-size: 1rem;
     border: none;
     background: linear-gradient(45deg, #3498db, #2980b9); /* Elegant gradient */
     color: white;
@@ -102,6 +104,8 @@ img {
 #results {
     margin-top: 20px;
     display: none;
+    width: 100%;
+    margin-top: 20px;
 }
 
 #results-table {
@@ -110,7 +114,7 @@ img {
 }
 
 #results-table th, #results-table td {
-    padding: 8px;
+    padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
@@ -167,11 +171,11 @@ img {
     }
 
     img {
-        max-width: 300px; /* Resize image for smaller screens */
+        max-width: 250px; /* Resize image for smaller screens */
     }
 
     h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .caption {
@@ -181,4 +185,15 @@ img {
     #results-table td, #results-table th {
         font-size: 0.9rem;
     }
+}
+
+/* Footer styles */
+#footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+    color: #777;
 }
