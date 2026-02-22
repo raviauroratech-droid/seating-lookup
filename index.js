@@ -61,7 +61,7 @@ app.get('/api/create-table', async (req, res) => {
 //Insert Data endpoint
 app.get('/api/insert-data', async (req, res) => {
   const insertQuery = `
-      INSERT INTO seating ("firstName", "lastName", "tableNumber")
+      INSERT INTO seating ("firstname", "lastname", "tablenumber")
       VALUES 
       ('Chockalingam','Adaikkappan',1),
       ('Kavya','Alagappam',1),
