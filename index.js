@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import insertData from './insertData';  // Import the insertData function
 
 dotenv.config();
 const app = express();
@@ -56,26 +57,31 @@ app.get('/api/create-table', async (req, res) => {
   }
 });
 
-// Insert Data endpoint
-app.get('/api/insert-data', async (req, res) => {
-  const insertQuery = `
-    INSERT INTO seating ("firstname", "lastname", "tablenumber")
-    VALUES 
-    ('Alice', 'Smith', 1),
-    ('Bob', 'Johnson', 2),
-    ('Charlie', 'Brown', 3)
-    ON CONFLICT DO NOTHING;
-  `;
+// Insert Data endpoint (now in insertData.js)
+app.get('/api/insert-data', insertData);
 
-  try {
-    // Execute the query to create the table
-    await pool.query(insertQuery);
-    res.status(200).json({ message: 'Sample data inserted into seating table!' });
-  } catch (err) {
-    console.error('Error inserting sample data:', err);
-    res.status(500).json({ error: 'Error inserting sample data: ' + err.message });
-  }
-});
+// Insert Data endpoint
+//app.get('/api/insert-data', async (req, res) => {
+//  const insertQuery = `
+//    INSERT INTO seating ("firstName", "lastName", "tableNumber")
+//    VALUES 
+//    ('Alice', 'Smith', 1),
+//    ('Bob', 'Johnson', 2),
+//    ('Charlie', 'Brown', 3)
+//    ON CONFLICT DO NOTHING;
+//  `;
+//
+//  try {
+//    // Execute the query to create the table
+//    await pool.query(insertQuery);
+//    res.status(200).json({ message: 'Sample data inserted into seating table!' });
+//  } catch (err) {
+//    console.error('Error inserting sample data:', err);
+//    res.status(500).json({ error: 'Error inserting sample data: ' + err.message });
+//  }
+//});
+
+
 
 // Search by Name
 app.get('/api/people', async (req, res) => {
@@ -116,7 +122,4 @@ app.get('/api/table/:tableNumber', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
-
