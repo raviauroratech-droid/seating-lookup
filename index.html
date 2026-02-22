@@ -1,60 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seating Lookup</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guest Table Finder</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+
+    .logo {
+      max-width: 140px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    h2 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .description {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover { background: #43a047; }
+
+    .result {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .result p {
+      background: #f2f2f2;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .highlight {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+    }
+
+    /* Loader */
+    #loaderOverlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+      visibility: hidden;
+      z-index: 100;
+    }
+
+    #loaderOverlay svg {
+      width: 56px;
+      height: 56px;
+      animation: spin 1.1s linear infinite;
+      fill: #4CAF50;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .searchMode {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .searchMode label {
+      margin: 0 10px;
+    }
+
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Landing Page Picture & Caption -->
-        <div class="landing">
-            <img id="landing-image" src="https://www.theknot.com/tk-media/images/495995ec-7459-410d-a1e7-98a2bea3919d~rt_auto-cr_27.0.837.1080-rs_2880.h?quality=75" alt="Seating Lookup" />
-            <p id="caption">Please enter a partial name to find out the table or table number to see who is seated.</p>
-        </div>
+  <div class="container">
+    <img class="logo" src="https://www.theknot.com/tk-media/images/495995ec-7459-410d-a1e7-98a2bea3919d~rt_auto-cr_27.0.837.1080-rs_2880.h?quality=75" alt="Event Logo">
 
-        <!-- Search Mode Toggle -->
-        <div class="search-mode">
-            <button id="search-by-name" class="active">Search by Name</button>
-            <button id="search-by-table">Search by Table</button>
-        </div>
+    <h2>Find Your Table</h2>
+    <p class="description">
+      Enter part of your name or table number to find your assigned seat.
+    </p>
 
-        <!-- Search by Name -->
-        <div id="name-search" class="search-section">
-            <input type="text" id="name-input" placeholder="Enter name..." />
-            <button id="name-search-btn">Search</button>
-        </div>
-
-        <!-- Search by Table -->
-        <div id="table-search" class="search-section hidden">
-            <input type="number" id="table-input" placeholder="Enter table number..." />
-            <button id="table-search-btn">Search</button>
-        </div>
-
-        <!-- Loading Indicator -->
-        <div id="loading" class="hidden">
-            <img src="loading-spinner.gif" alt="Loading..." />
-        </div>
-
-        <!-- Results -->
-        <div id="results" class="results hidden">
-            <table id="results-table">
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Table Number</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+    <div class="searchMode">
+      <label><input type="radio" name="searchMode" value="name" checked> Search by Name</label>
+      <label><input type="radio" name="searchMode" value="table"> Search by Table</label>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <div id="searchFields">
+      <input id="query" placeholder="e.g., Ram, Ravi" autocomplete="off" />
+    </div>
 
+    <button id="searchBtn">Search</button>
+
+    <div id="results" class="result"></div>
+
+    <div class="footer">
+      Event Table Finder • <span id="version"></span>
+    </div>
+
+    <div id="loaderOverlay">
+      <svg viewBox="0 0 24 24">
+        <path d="M6 2v6h1v8H6v6h12v-6h-1V8h1V2H6z"/>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    /******** CONFIG ********/
+    const APP_VERSION = "v1.6.0";
+    const API_URL = "https://seating-app-backend-cw7q.onrender.com";  // Replace with your backend URL when deployed
+
+    document.getElementById("version").textContent = APP_VERSION;
+
+    const loader = document.getElementById("loaderOverlay");
+    const resultsDiv = document.getElementById("results");
+    const queryInput = document.getElementById("query");
+    const searchBtn = document.getElementById("searchBtn");
+    const searchModeRadios = document.querySelectorAll('input[name="searchMode"]');
+
+    function showLoader() { loader.style.visibility = "visible"; }
+    function hideLoader() { loader.style.visibility = "hidden"; }
+
+    function highlight(text, query) {
+      return text.replace(new RegExp(`(${query})`, "gi"), '<span class="highlight">$1</span>');
+    }
+
+    async function search() {
+      const query = queryInput.value.trim();
+      const activeMode = document.querySelector('input[name="searchMode"]:checked').value;
+      resultsDiv.innerHTML = "";
+
+      if (!query) {
+        resultsDiv.innerHTML = "<p>Please enter a value.</p>";
+        return;
+      }
+
+      showLoader();
+
+      try {
+        let res;
+        if (activeMode === "name") {
+          res = await fetch(`${API_URL}/api/people?name=${encodeURIComponent(query)}`);
+        } else if (activeMode === "table") {
+          res = await fetch(`${API_URL}/api/table/${encodeURIComponent(query)}`);
+        }
+
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+
+        hideLoader();
+
+        if (!data.length) {
+          resultsDiv.innerHTML = "<p>No matches found.</p>";
+          return;
+        }
+
+        data.forEach(item => {
+          const p = document.createElement("p");
+          if (activeMode === "name") {
+            p.innerHTML = `<strong>${highlight(item.firstname + ' ' + item.lastname, query)}</strong><br>Table ${item.tablenumber}`;
+          } else {
+            p.innerHTML = `<strong>${item.firstname} ${item.lastname}</strong>`;
+          }
+          resultsDiv.appendChild(p);
+        });
+
+      } catch (e) {
+        hideLoader();
+        resultsDiv.innerHTML = "<p>Error loading data.</p>";
+        console.error(e);
+      }
+    }
+
+    searchBtn.addEventListener("click", search);
+    queryInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") search();
+    });
+
+    searchModeRadios.forEach(radio => {
+      radio.addEventListener("change", () => {
+        queryInput.value = "";
+        resultsDiv.innerHTML = "";
+      });
+    });
+  </script>
+</body>
 </html>
