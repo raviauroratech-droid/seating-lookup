@@ -246,6 +246,23 @@ app.get('/api/insert-data', async (req, res) => {
 //  }
 //});
 
+// Search by Name
+app.get('/api/all', async (req, res) => {
+  const { name } = req.query;
+  if (!name) return res.status(400).json({ error: 'Missing name query parameter' });
+
+  try {
+    const result = await pool.query(`
+      SELECT "firstname", "lastname", "tablenumber"
+      FROM seating
+      ORDER BY "lastname" ASC
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Database select query failed:', err);
+    res.status(500).json({ error: 'Database select query failed' });
+  }
+});
 
 
 // Search by Name
