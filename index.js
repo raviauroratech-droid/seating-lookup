@@ -255,8 +255,8 @@ app.get('/api/all-data', async (req, res) => {
     const result = await pool.query(`
       SELECT "firstname", "lastname", "tablenumber"
       FROM seating
-      ORDER BY "lastname" ASC'
-    );
+      ORDER BY "lastname" ASC
+    `);
     res.json(result.rows);
   } catch (err) {
     console.error('Database select query failed:', err);
