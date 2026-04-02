@@ -247,7 +247,7 @@ app.get('/api/insert-data', async (req, res) => {
 //});
 
 // Search by Name
-app.get('/api/all', async (req, res) => {
+app.get('/api/all-data', async (req, res) => {
   const { name } = req.query;
   if (!name) return res.status(400).json({ error: 'Missing name query parameter' });
 
@@ -255,7 +255,7 @@ app.get('/api/all', async (req, res) => {
     const result = await pool.query(`
       SELECT "firstname", "lastname", "tablenumber"
       FROM seating
-      ORDER BY "lastname" ASC
+      ORDER BY "lastname" ASC'
     );
     res.json(result.rows);
   } catch (err) {
