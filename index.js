@@ -246,6 +246,7 @@ app.get('/api/insert-data', async (req, res) => {
 //  }
 //});
 
+
 // Search by Name
 app.get('/api/all-data', async (req, res) => {
   const { name } = req.query;
@@ -253,7 +254,7 @@ app.get('/api/all-data', async (req, res) => {
 
   try {
     const result = await pool.query(`
-      SELECT "firstname", "lastname", "tablenumber"
+      SELECT "firstname", "lastname"
       FROM seating
       ORDER BY "lastname" ASC
     `);
