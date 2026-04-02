@@ -247,7 +247,7 @@ app.get('/api/insert-data', async (req, res) => {
 //});
 
 
-app.get('/api/all-data', async (req, res) => {
+app.get('/api/new-data', async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT "firstname", "lastname", "tablenumber"
